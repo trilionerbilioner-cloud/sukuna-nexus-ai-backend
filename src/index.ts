@@ -27,7 +27,15 @@ export default {
 		ctx: ExecutionContext,
 	): Promise<Response> {
 		const url = new URL(request.url);
+const corsHeaders = {
+    "Access-Control-Allow-Origin": "https://morning-grass-976d.trilionerbilioner.workers.dev",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+};
 
+if (request.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+}
 		// Handle static assets (frontend)
 		if (url.pathname === "/" || !url.pathname.startsWith("/api/")) {
 			return env.ASSETS.fetch(request);
@@ -37,8 +45,19 @@ export default {
 		if (url.pathname === "/api/chat") {
 			// Handle POST requests for chat
 			if (request.method === "POST") {
-				return handleChatRequest(request, env);
-			}
+    const response = await handleChatRequest(request, env);
+    const headers = new Headers(response.headers);
+
+    Object.entries(corsHeaders).forEach(([key, value]) => {
+        headers.set(key, value);
+    });
+
+    return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+    });
+}
 
 			// Method not allowed for other request types
 			return new Response("Method not allowed", { status: 405 });
