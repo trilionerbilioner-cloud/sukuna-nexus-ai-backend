@@ -28,7 +28,7 @@ export default {
 	): Promise<Response> {
 		const url = new URL(request.url);
 const corsHeaders = {
-    "Access-Control-Allow-Origin": "https://morning-grass-976d.trilionerbilioner.workers.dev",
+    "Access-Control-Allow-Origin": "https://sukunanexus.sukunanexus.workers.dev",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type"
 };
