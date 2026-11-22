@@ -109,7 +109,7 @@ async function handleChatRequest(
 			},
 		});
 	} catch (error) {
-		console.error("Error processing chat request:", error);
+		console.error("Workers AI ERROR:", error?.message, error);
 		return new Response(
 			JSON.stringify({ error: "Failed to process request" }),
 			{
